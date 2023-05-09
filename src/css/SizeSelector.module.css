@@ -1,0 +1,14 @@
+.selector {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    border: 1px solid #a8a8a8;
+}
+
+.selectorRow {
+    height: 30px;
+}
+
+.selected {
+    background-color: #5e81ac;
+}
