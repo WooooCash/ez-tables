@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import css from "../css/Table.module.css";
+import { toRedmineTable } from "../util/transformer";
 
 const Table = (props) => {
   const [cells, setCells] = useState([]);
@@ -34,6 +35,7 @@ const Table = (props) => {
 
   const updateCell = (idx, value) => {
     let newCells = [...cells];
+      console.log(value)
     newCells[idx].text = value;
     setCells(newCells);
   };
@@ -45,20 +47,27 @@ const Table = (props) => {
     setCells(newCells);
   };
 
+    const transformToRedmine = () => {
+        let data = {cells: cells, colCount: props.size.cols}
+        let redmineTable = toRedmineTable(data)
+        console.log(redmineTable);
+        navigator.clipboard.writeText(redmineTable.trim());
+    }
+
   return (
     <>
       <div style={containerStyle()}>
         {cells.map((cell, i) => (
           <div
             className={[css.tableCell, (cell.bold ? css.bold : "")].join(' ')}
-            onInput={(e) => updateCell(i, e.currentTarget.innerHTML)}
+            onInput={(e) => updateCell(i, e.currentTarget.innerText)}
             onClick={() => setSelected(i)}
             contentEditable={true}
           ></div>
         ))}
       </div>
-      <button onClick={() => console.log(cells)}>log</button>
       <button onClick={toggleBold}>Toggle Bold</button>
+      <button onClick={transformToRedmine}>Copy To Clipboard</button>
     </>
   );
 };
